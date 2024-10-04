@@ -16,15 +16,20 @@ var state : State = State.NONE
 
 func _ready():
 	modulate = Color(int(imFire), int(imRay), int(imIce))
+	TurnControl.player_turn_end.connect(start_turn)
+	
+func start_turn():
+	state = State.SURROUND
+	surroundTimer.start()
 
-func _physics_process(delta):
+func _process(delta):
 	match state:
 		State.NONE:
 			pass
 		State.SURROUND:
 			surround_state(delta)
 		State.ATTACK:
-			pass
+			attack_state(delta)
 			
 func surround_state(_delta):
 	pass
@@ -60,7 +65,6 @@ func take_damage(bulelement : String):
 		
 	if not safe:
 		queue_free()
-		
 
 func _on_surround_timer_timeout():
 	state = State.ATTACK
@@ -75,9 +79,4 @@ func _on_attack_timer_timeout():
 		ele += "GO"
 	if imRay:
 		ele += "MAN"
-		
-	found_player()
 	
-func found_player():
-	state = State.SURROUND
-	surroundTimer.start()

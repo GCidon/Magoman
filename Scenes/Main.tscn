@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://ck46ar441yexq"]
+[gd_scene load_steps=7 format=3 uid="uid://ck46ar441yexq"]
 
 [ext_resource type="Texture2D" uid="uid://bjkin0geu6k7y" path="res://Art/Sprites/fondo.png" id="1_pnjqr"]
 [ext_resource type="PackedScene" uid="uid://l5sjrvf0pu3j" path="res://Scenes/mago.tscn" id="1_ygbar"]
 [ext_resource type="PackedScene" uid="uid://dwfbjmlx3hvqn" path="res://Scenes/enemy.tscn" id="2_dl1ew"]
+[ext_resource type="Script" path="res://Scripts/UI/time_bar.gd" id="4_7uvla"]
+[ext_resource type="Texture2D" uid="uid://ksv8xvh365na" path="res://Art/Sprites/turnpanel.png" id="4_fgqw6"]
+[ext_resource type="Script" path="res://Scripts/UI/turn_label.gd" id="5_yrgp3"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -16,7 +19,6 @@ position = Vector2(293, 352)
 [node name="Enemy" parent="." instance=ExtResource("2_dl1ew")]
 position = Vector2(969, 150)
 imFire = true
-imIce = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -35,7 +37,43 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -500.0
-offset_top = -200.0
+offset_left = -552.0
+offset_top = -249.0
+offset_right = -52.0
 grow_horizontal = 0
 grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control/Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+show_percentage = false
+script = ExtResource("4_7uvla")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Control/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_fgqw6")
+
+[node name="TurnPanel" type="Control" parent="CanvasLayer/Control"]
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 60.0
+offset_bottom = 60.0
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/TurnPanel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+scale = Vector2(1, 0.995643)
+theme_override_font_sizes/font_size = 30
+text = "TURNO DE MAGOMAN"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("5_yrgp3")
+
+[node name="TimeControl" type="Node" parent="."]

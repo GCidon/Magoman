@@ -15,32 +15,32 @@ func _physics_process(_delta):
 	pass
 	
 func _input(_event):
-	
-	if Input.is_action_just_pressed("shield"):
-		shield_up()
-	if Input.is_action_just_released("shield"):
-		shield_down()
-		
-	if not is_shielding:
-		if Input.is_action_just_pressed("ma"):
-			add_spell(Element.MA)
-		if Input.is_action_just_pressed("go"):
-			add_spell(Element.GO)
-		if Input.is_action_just_pressed("man"):
-			add_spell(Element.MAN)
-	else:
-		if Input.is_action_pressed("ma"):
-			shield_type = Element.MA
-			shield.modulate = Color(1, 0, 0)
-		elif Input.is_action_pressed("go"):
-			shield_type = Element.GO
-			shield.modulate = Color(0, 0, 1)
-		elif Input.is_action_pressed("man"):
-			shield_type = Element.MAN
-			shield.modulate = Color(0, 1, 0)
+	if TurnControl.is_player_turn():
+		if Input.is_action_just_pressed("shield"):
+			shield_up()
+		if Input.is_action_just_released("shield"):
+			shield_down()
+			
+		if not is_shielding:
+			if Input.is_action_just_pressed("ma"):
+				add_spell(Element.MA)
+			if Input.is_action_just_pressed("go"):
+				add_spell(Element.GO)
+			if Input.is_action_just_pressed("man"):
+				add_spell(Element.MAN)
 		else:
-			shield_type = Element.NONE
-			shield.modulate = Color(1, 1, 1)
+			if Input.is_action_pressed("ma"):
+				shield_type = Element.MA
+				shield.modulate = Color(1, 0, 0)
+			elif Input.is_action_pressed("go"):
+				shield_type = Element.GO
+				shield.modulate = Color(0, 0, 1)
+			elif Input.is_action_pressed("man"):
+				shield_type = Element.MAN
+				shield.modulate = Color(0, 1, 0)
+			else:
+				shield_type = Element.NONE
+				shield.modulate = Color(1, 1, 1)
 
 func add_spell(spell : Element):
 	AttackArray.append(spell)
