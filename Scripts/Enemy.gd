@@ -7,21 +7,12 @@ var HP : int = 100
 @export var imIce : bool = false
 @export var imRay : bool = false
 
-@export var bullet : PackedScene
-
 @onready var attackTimer : Timer = $AttackTimer
 @onready var surroundTimer : Timer = $SurroundTimer
-@onready var moveRaycast : RayCast2D = $RayCast2D
 
 enum State {NONE, SURROUND, ATTACK}
 
 var state : State = State.NONE
-
-var player : Player = null
-
-var fleeDir : Vector2
-var moveDir : Vector2
-var speed : float = 100.0
 
 func _ready():
 	modulate = Color(int(imFire), int(imRay), int(imIce))
@@ -35,17 +26,10 @@ func _physics_process(delta):
 		State.ATTACK:
 			pass
 			
-func surround_state(delta):
-	fleeDir = (position - player.position).normalized()
-	moveDir = (position - player.position).normalized()
-	moveRaycast.target_position = fleeDir * 200
-	if moveRaycast.is_colliding():
-		var colVector : Vector2 = moveRaycast.target_position.normalized()
-		var perpen = colVector.orthogonal()
-		moveDir = fleeDir + perpen
-	position += moveDir * speed * delta
+func surround_state(_delta):
+	pass
 	
-func attack_state(delta):
+func attack_state(_delta):
 	pass
 
 func take_damage(bulelement : String):
@@ -78,45 +62,22 @@ func take_damage(bulelement : String):
 		queue_free()
 		
 
-
-func _on_rango_body_entered(body):
-	if body is Player:
-		player = body as Player
-	found_player()
-
-func _on_rango_body_exited(body):
-	if body is Player:
-		player = null
-	state = State.NONE
-
 func _on_surround_timer_timeout():
 	state = State.ATTACK
 	attackTimer.start()
 
 func _on_attack_timer_timeout():
-	if player != null:
-		var newbullet = bullet.instantiate() as Bullet
-		newbullet.global_position = global_position
-		owner.add_child(newbullet)
+	var ele : String = ""
 		
-		var dir : Vector2 = (player.position - position).normalized()
-		newbullet.dir = dir
-		var ele : String = ""
+	if imFire:
+		ele += "MA"
+	if imIce:
+		ele += "GO"
+	if imRay:
+		ele += "MAN"
 		
-		if imFire:
-			ele += "MA"
-		if imIce:
-			ele += "GO"
-		if imRay:
-			ele += "MAN"
-					
-		newbullet.set_bullet(ele, false)	
-		found_player()
-	else:
-		state = State.NONE
+	found_player()
 	
 func found_player():
 	state = State.SURROUND
-	fleeDir = (position - player.position).normalized()
-	moveRaycast.target_position = fleeDir * 200
 	surroundTimer.start()

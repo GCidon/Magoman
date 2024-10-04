@@ -1,39 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://l5sjrvf0pu3j"]
+[gd_scene load_steps=5 format=3 uid="uid://l5sjrvf0pu3j"]
 
 [ext_resource type="Script" path="res://Scripts/Mago.gd" id="1_1sw8y"]
-[ext_resource type="PackedScene" uid="uid://ytl18yqvrjnr" path="res://Scenes/Proyectiles/proyectil.tscn" id="2_a87rg"]
-[ext_resource type="Texture2D" uid="uid://caoqdgfvwklsm" path="res://Art/Sprites/mago.png" id="3_ornhd"]
+[ext_resource type="Texture2D" uid="uid://bnvucn8054s5f" path="res://Art/Sprites/magoman.png" id="2_gpuk8"]
 [ext_resource type="Texture2D" uid="uid://b2vsp37t1w67x" path="res://Art/Sprites/shield.png" id="4_0iwld"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lepqu"]
 radius = 41.0122
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1nu8y"]
-radius = 551.294
-
 [node name="Mago" type="CharacterBody2D"]
 script = ExtResource("1_1sw8y")
-bullet = ExtResource("2_a87rg")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("3_ornhd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 22)
 shape = SubResource("CircleShape2D_lepqu")
 
-[node name="Rango" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rango"]
-shape = SubResource("CircleShape2D_1nu8y")
-
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("2_gpuk8")
 
 [node name="Shield" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(0.999998, 20.5)
 scale = Vector2(0.4375, 0.441406)
 texture = ExtResource("4_0iwld")
-
-[connection signal="body_entered" from="Rango" to="." method="_on_rango_body_entered"]
-[connection signal="body_exited" from="Rango" to="." method="_on_rango_body_exited"]
