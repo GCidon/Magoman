@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://dwfbjmlx3hvqn"]
+
+[ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_4m63n"]
+[ext_resource type="Texture2D" uid="uid://caoqdgfvwklsm" path="res://Art/Sprites/mago.png" id="2_414xo"]
+[ext_resource type="PackedScene" uid="uid://ytl18yqvrjnr" path="res://Scenes/Proyectiles/proyectil.tscn" id="2_eop10"]
+[ext_resource type="Script" path="res://Scripts/debug_raycast_line.gd" id="3_veppk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hych5"]
+size = Vector2(65, 105)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jcrev"]
+radius = 581.055
+
+[node name="Enemy" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_4m63n")
+bullet = ExtResource("2_eop10")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3.5, 13.5)
+shape = SubResource("RectangleShape2D_hych5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_414xo")
+
+[node name="Rango" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rango"]
+shape = SubResource("CircleShape2D_jcrev")
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="SurroundTimer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 200)
+collide_with_areas = true
+
+[node name="Line2D" type="Line2D" parent="RayCast2D"]
+points = PackedVector2Array(0, 0, 0, 200)
+width = 2.0
+default_color = Color(1, 0, 0, 1)
+script = ExtResource("3_veppk")
+
+[connection signal="body_entered" from="Rango" to="." method="_on_rango_body_entered"]
+[connection signal="body_exited" from="Rango" to="." method="_on_rango_body_exited"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="SurroundTimer" to="." method="_on_surround_timer_timeout"]
