@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://l5sjrvf0pu3j"]
+[gd_scene load_steps=6 format=3 uid="uid://l5sjrvf0pu3j"]
 
 [ext_resource type="Script" path="res://Scripts/Mago.gd" id="1_1sw8y"]
 [ext_resource type="Texture2D" uid="uid://bnvucn8054s5f" path="res://Art/Sprites/magoman.png" id="2_gpuk8"]
+[ext_resource type="Script" path="res://Scripts/sprite_vaiven.gd" id="3_1jhnh"]
 [ext_resource type="Texture2D" uid="uid://b2vsp37t1w67x" path="res://Art/Sprites/shield.png" id="4_0iwld"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lepqu"]
@@ -16,6 +17,7 @@ shape = SubResource("CircleShape2D_lepqu")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
 texture = ExtResource("2_gpuk8")
+script = ExtResource("3_1jhnh")
 
 [node name="Shield" type="Sprite2D" parent="."]
 visible = false

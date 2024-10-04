@@ -1,7 +1,7 @@
 extends Sprite2D
 
-@export var angle : float = 10.0
-@export var step : int = 30
+@export var angle : float = 5.0
+@export var step : int = 20
 var dir : int = 1
 
 func _process(delta):
