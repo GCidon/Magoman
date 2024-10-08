@@ -7,16 +7,23 @@ var HP : int = 100
 @export var imIce : bool = false
 @export var imRay : bool = false
 
+@export var attack_manager : EnemyAttackManager
+
 @onready var attackTimer : Timer = $AttackTimer
 @onready var surroundTimer : Timer = $SurroundTimer
 
 enum State {NONE, SURROUND, ATTACK}
+enum Elements {FIRE, ICE, RAY}
 
 var state : State = State.NONE
+
+var attacks : Array[Elements]
 
 func _ready():
 	modulate = Color(int(imFire), int(imRay), int(imIce))
 	TurnControl.player_turn_end.connect(start_turn)
+	TurnControl.beat.connect(on_beat)
+	CombatControl.mago_attack.connect(take_damage)
 	
 func start_turn():
 	state = State.SURROUND
@@ -54,16 +61,19 @@ func take_damage(bulelement : String):
 		isIce += 1
 		bulelement = bulelement.erase(bulelement.find("GO"), 2)
 	
-	var safe : bool = false
+	var safe : bool = true
 		
-	if imFire and isFire > 0:
+	if imFire and isFire >= 0:
 		safe = true
-	if imIce and isIce > 0:
+	elif imIce and isIce >= 0:
 		safe = true
-	if imRay and isRay > 0:
+	elif imRay and isRay >= 0:
 		safe = true
+	else:
+		safe = false
 		
 	if not safe:
+		
 		queue_free()
 
 func _on_surround_timer_timeout():
@@ -80,3 +90,21 @@ func _on_attack_timer_timeout():
 	if imRay:
 		ele += "MAN"
 	
+	CombatControl.enemy_attack.emit(ele)
+	
+func on_beat(num):
+	if state == State.SURROUND:
+		add_attack()
+		
+func add_attack():
+	var ele : Elements
+	var randomele = randi_range(0, 2)
+	match randomele:
+		0:
+			ele = Elements.FIRE
+		1:
+			ele = Elements.ICE
+		2:
+			ele = Elements.RAY
+	attacks.append(ele)
+	attack_manager.set_attack(attacks.size(), randomele)

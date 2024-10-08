@@ -1,6 +1,7 @@
 extends Node
 
 signal turn_end
+signal beat(num : int)
 
 signal player_turn_end
 signal enemy_turn_end

@@ -9,10 +9,14 @@ var shield_type : Element = Element.NONE
 enum Element {MA, GO, MAN, NONE}
 var AttackArray : Array[Element] = []
 
+@export var attack_sprite_manager : AttackSpriteManager
+
 var hp : int = 3
 
-func _physics_process(_delta):
-	pass
+func _ready():
+	TurnControl.player_turn_end.connect(cast_spell)
+	TurnControl.enemy_turn_end.connect(reset_spells)
+	CombatControl.enemy_attack.connect(receive_damage)
 	
 func _input(_event):
 	if TurnControl.is_player_turn():
@@ -43,13 +47,15 @@ func _input(_event):
 				shield.modulate = Color(1, 1, 1)
 
 func add_spell(spell : Element):
-	AttackArray.append(spell)
-	if AttackArray.size() == 3:
-		cast_spell()
-		AttackArray.clear()
+	if AttackArray.size() < 3:
+		AttackArray.append(spell)
+		var numspell : int = int(spell)
+		attack_sprite_manager.set_attack(AttackArray.size(), numspell)
+		
+func reset_spells():
+	AttackArray.clear()
 		
 func cast_spell():
-	
 	var ele : String = ""
 	for i in AttackArray:
 		match i:
@@ -59,6 +65,10 @@ func cast_spell():
 				ele += "GO"
 			Element.MAN:
 				ele += "MAN"
+				
+	#animación
+	
+	CombatControl.mago_attack.emit(ele)
 
 func shield_up():
 	is_shielding = true
@@ -70,7 +80,8 @@ func shield_down():
 	shield_type = Element.NONE
 	shield.modulate = Color(1, 1, 1)
 
-func receive_bullet(ele):
+func receive_damage(ele):
+	
 	var isFire : int = 0
 	var isIce : int = 0
 	var isRay : int = 0
@@ -91,9 +102,7 @@ func receive_bullet(ele):
 	if (shield_type == Element.MA and isFire > 0) or (shield_type == Element.GO and isIce > 0) or (shield_type == Element.MAN and isRay > 0):
 		pass
 	else:
-		receive_damage()
-
-func receive_damage():
-	hp-=1
-	if hp<=0:
-		queue_free()
+		hp-=1
+		if hp<=0:
+			queue_free()
+		

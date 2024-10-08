@@ -1,28 +1,76 @@
-[gd_scene load_steps=7 format=3 uid="uid://ck46ar441yexq"]
+[gd_scene load_steps=17 format=3 uid="uid://ck46ar441yexq"]
 
 [ext_resource type="Texture2D" uid="uid://bjkin0geu6k7y" path="res://Art/Sprites/fondo.png" id="1_pnjqr"]
+[ext_resource type="Shader" path="res://Art/Shaders/lines.gdshader" id="1_pwdgi"]
+[ext_resource type="Shader" path="res://Art/Shaders/retro.gdshader" id="1_w1xtv"]
 [ext_resource type="PackedScene" uid="uid://l5sjrvf0pu3j" path="res://Scenes/mago.tscn" id="1_ygbar"]
 [ext_resource type="PackedScene" uid="uid://dwfbjmlx3hvqn" path="res://Scenes/enemy.tscn" id="2_dl1ew"]
 [ext_resource type="Script" path="res://Scripts/UI/time_bar.gd" id="4_7uvla"]
 [ext_resource type="Texture2D" uid="uid://ksv8xvh365na" path="res://Art/Sprites/turnpanel.png" id="4_fgqw6"]
+[ext_resource type="Script" path="res://Scripts/EnemyContainer.gd" id="4_rqx7r"]
 [ext_resource type="Script" path="res://Scripts/UI/turn_label.gd" id="5_yrgp3"]
+[ext_resource type="Script" path="res://Scripts/UI/AttackSpriteManager.gd" id="7_5m03m"]
+[ext_resource type="Texture2D" uid="uid://b47gukfpxfq0o" path="res://Art/Sprites/attacks/boton_ma.png" id="7_ea2g7"]
+[ext_resource type="Texture2D" uid="uid://15oo5wjjk6us" path="res://Art/Sprites/attacks/boton_go.png" id="8_duhk3"]
+[ext_resource type="Texture2D" uid="uid://cqmdjhtotvw83" path="res://Art/Sprites/attacks/boton_man.png" id="9_qkbs6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sgtay"]
+shader = ExtResource("1_pwdgi")
+shader_parameter/bottom_color = Color(0.682353, 0.231373, 0.92549, 1)
+shader_parameter/top_color = Color(0, 0, 0.945098, 1)
+shader_parameter/beam_distance = 0.058
+shader_parameter/beam_height = 0.019
+shader_parameter/beam_width = 0.448
+shader_parameter/total_phases = 8
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5bhbi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ii4hs"]
+shader = ExtResource("1_w1xtv")
+shader_parameter/overlay = false
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = true
+shader_parameter/roll = true
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.03
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 1.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Fondo" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_sgtay")
 position = Vector2(576, 324)
 texture = ExtResource("1_pnjqr")
 
-[node name="Mago" parent="." instance=ExtResource("1_ygbar")]
+[node name="Mago" parent="." node_paths=PackedStringArray("attack_sprite_manager") instance=ExtResource("1_ygbar")]
 position = Vector2(293, 352)
+attack_sprite_manager = NodePath("../Control/Control/VBoxContainer/TextureRect/HBoxContainer")
 
-[node name="Enemy" parent="." instance=ExtResource("2_dl1ew")]
-position = Vector2(969, 150)
+[node name="EnemyContainer" type="Area2D" parent="."]
+position = Vector2(965, 149)
+script = ExtResource("4_rqx7r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyContainer"]
+shape = SubResource("RectangleShape2D_5bhbi")
+
+[node name="Enemy" parent="EnemyContainer" instance=ExtResource("2_dl1ew")]
 imFire = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,42 +78,75 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="CanvasLayer/Control"]
+[node name="Control" type="Control" parent="Control"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -552.0
-offset_top = -249.0
-offset_right = -52.0
+offset_left = 582.0
+offset_top = 403.0
+offset_right = 1082.0
+offset_bottom = 652.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Control"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control/Control/VBoxContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="Control/Control/VBoxContainer"]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 show_percentage = false
 script = ExtResource("4_7uvla")
+bpms = 90
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Control/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="Control/Control/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("4_fgqw6")
 
-[node name="TurnPanel" type="Control" parent="CanvasLayer/Control"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Control/VBoxContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("7_5m03m")
+sprite_ma = ExtResource("7_ea2g7")
+sprite_go = ExtResource("8_duhk3")
+sprite_man = ExtResource("9_qkbs6")
+
+[node name="TextureRect1" type="TextureRect" parent="Control/Control/VBoxContainer/TextureRect/HBoxContainer"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_vertical = 4
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="Control/Control/VBoxContainer/TextureRect/HBoxContainer"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_vertical = 4
+expand_mode = 1
+
+[node name="TextureRect3" type="TextureRect" parent="Control/Control/VBoxContainer/TextureRect/HBoxContainer"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_vertical = 4
+expand_mode = 1
+
+[node name="TurnPanel" type="Control" parent="Control"]
 anchors_preset = 0
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 60.0
 offset_bottom = 60.0
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/TurnPanel"]
+[node name="Label" type="Label" parent="Control/TurnPanel"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
@@ -76,4 +157,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("5_yrgp3")
 
-[node name="TimeControl" type="Node" parent="."]
+[node name="TV" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ii4hs")
+position = Vector2(576, 324)
+texture = ExtResource("1_pnjqr")
