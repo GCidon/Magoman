@@ -25,7 +25,6 @@ func _process(delta):
 			actual_beat += 1
 			if actual_beat == 4:
 				actual_beat = 0
-			print(actual_beat)
 			TurnControl.beat.emit(actual_beat)
 			
 		value += (100.0/turn_duration) * delta

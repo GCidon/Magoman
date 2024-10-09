@@ -1,14 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://dwfbjmlx3hvqn"]
+[gd_scene load_steps=9 format=3 uid="uid://dwfbjmlx3hvqn"]
 
 [ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_4m63n"]
 [ext_resource type="Texture2D" uid="uid://caoqdgfvwklsm" path="res://Art/Sprites/mago.png" id="2_414xo"]
 [ext_resource type="Script" path="res://Scripts/sprite_vaiven.gd" id="3_5tdyp"]
 [ext_resource type="Script" path="res://Scripts/UI/EnemyAttackManager.gd" id="4_suw6g"]
-[ext_resource type="Texture2D" uid="uid://b47gukfpxfq0o" path="res://Art/Sprites/attacks/boton_ma.png" id="4_xwq3m"]
-[ext_resource type="Texture2D" uid="uid://15oo5wjjk6us" path="res://Art/Sprites/attacks/boton_go.png" id="5_2lylb"]
 [ext_resource type="Texture2D" uid="uid://dojwq1e0f5xij" path="res://Art/Sprites/attacks/enemy_ma.png" id="5_f80br"]
 [ext_resource type="Texture2D" uid="uid://6botlbfvfsf3" path="res://Art/Sprites/attacks/enemy_go.png" id="6_ap4x3"]
-[ext_resource type="Texture2D" uid="uid://cqmdjhtotvw83" path="res://Art/Sprites/attacks/boton_man.png" id="6_rcpx6"]
 [ext_resource type="Texture2D" uid="uid://dl5wvv0yialm7" path="res://Art/Sprites/attacks/enemy_man.png" id="7_rtjnq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hych5"]
@@ -27,11 +24,6 @@ shape = SubResource("RectangleShape2D_hych5")
 scale = Vector2(2, 2)
 texture = ExtResource("2_414xo")
 script = ExtResource("3_5tdyp")
-
-[node name="AttackTimer" type="Timer" parent="."]
-
-[node name="SurroundTimer" type="Timer" parent="."]
-wait_time = 5.0
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -56,23 +48,17 @@ sprite_man = ExtResource("7_rtjnq")
 [node name="TextureRect1" type="TextureRect" parent="Control/VBoxContainer"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-texture = ExtResource("4_xwq3m")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="TextureRect2" type="TextureRect" parent="Control/VBoxContainer"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-texture = ExtResource("5_2lylb")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="TextureRect3" type="TextureRect" parent="Control/VBoxContainer"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-texture = ExtResource("6_rcpx6")
 expand_mode = 1
 stretch_mode = 5
-
-[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
-[connection signal="timeout" from="SurroundTimer" to="." method="_on_surround_timer_timeout"]

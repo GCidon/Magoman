@@ -68,7 +68,6 @@ script = ExtResource("4_rqx7r")
 shape = SubResource("RectangleShape2D_5bhbi")
 
 [node name="Enemy" parent="EnemyContainer" instance=ExtResource("2_dl1ew")]
-imFire = true
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -102,7 +101,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 show_percentage = false
 script = ExtResource("4_7uvla")
-bpms = 90
+bpms = 180
 
 [node name="TextureRect" type="TextureRect" parent="Control/Control/VBoxContainer"]
 layout_mode = 2
@@ -152,7 +151,7 @@ offset_right = 40.0
 offset_bottom = 23.0
 scale = Vector2(1, 0.995643)
 theme_override_font_sizes/font_size = 30
-text = "TURNO DE MAGOMAN"
+text = "TURNO DE ENEMIGO"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("5_yrgp3")

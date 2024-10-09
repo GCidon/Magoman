@@ -8,7 +8,7 @@ signal enemy_turn_end
 
 enum Turn {PLAYER, ENEMY}
 
-var actual_turn : Turn = Turn.PLAYER
+var actual_turn : Turn = Turn.ENEMY
 
 func _ready():
 	turn_end.connect(next_turn)
