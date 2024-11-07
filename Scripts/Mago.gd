@@ -8,12 +8,13 @@ var AttackArray : Array[Element] = []
 
 @onready var dmg_timer : Timer = $DmgTimer
 
-var hp : int = 3
+var hp : int = 5
 
 func _ready():
 	TurnControl.player_turn_end.connect(cast_spell)
 	TurnControl.enemy_turn_end.connect(reset_spells)
 	CombatControl.send_damage.connect(receive_damage)
+	CombatControl.enemy_dead.connect(heal)
 	
 func _input(_event):
 	if TurnControl.is_player_turn():
@@ -48,6 +49,16 @@ func receive_damage(dmg):
 	if dmg > 0:
 		modulate = Color(1, 0, 0)
 		dmg_timer.start()
+		CombatControl.player_dmg.emit()
+		if hp > 1:
+			hp -= 1
+		else:
+			CombatControl.player_dead.emit()
+			queue_free()
+			
+func heal():
+	if hp < 5:
+		hp += 1
 
 func _on_dmg_timer_timeout():
 	modulate = Color(1, 1, 1)

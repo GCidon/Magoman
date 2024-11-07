@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ck46ar441yexq"]
+[gd_scene load_steps=19 format=3 uid="uid://ck46ar441yexq"]
 
 [ext_resource type="Texture2D" uid="uid://bjkin0geu6k7y" path="res://Art/Sprites/fondo.png" id="1_pnjqr"]
 [ext_resource type="Shader" path="res://Art/Shaders/lines.gdshader" id="1_pwdgi"]
@@ -8,11 +8,13 @@
 [ext_resource type="Script" path="res://Scripts/UI/time_bar.gd" id="4_7uvla"]
 [ext_resource type="Texture2D" uid="uid://ksv8xvh365na" path="res://Art/Sprites/turnpanel.png" id="4_fgqw6"]
 [ext_resource type="Script" path="res://Scripts/EnemyContainer.gd" id="4_rqx7r"]
-[ext_resource type="Script" path="res://Scripts/UI/turn_label.gd" id="5_yrgp3"]
 [ext_resource type="Script" path="res://Scripts/UI/AttackSpriteManager.gd" id="7_5m03m"]
 [ext_resource type="Texture2D" uid="uid://b47gukfpxfq0o" path="res://Art/Sprites/attacks/boton_ma.png" id="7_ea2g7"]
 [ext_resource type="Texture2D" uid="uid://15oo5wjjk6us" path="res://Art/Sprites/attacks/boton_go.png" id="8_duhk3"]
 [ext_resource type="Texture2D" uid="uid://cqmdjhtotvw83" path="res://Art/Sprites/attacks/boton_man.png" id="9_qkbs6"]
+[ext_resource type="Script" path="res://Scripts/UI/LifesContainer.gd" id="13_n4c0r"]
+[ext_resource type="Script" path="res://Scripts/UI/countdown.gd" id="13_xy8xq"]
+[ext_resource type="Texture2D" uid="uid://7h6ccy5o5xnj" path="res://Art/Sprites/heart.png" id="14_tgixq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sgtay"]
 shader = ExtResource("1_pwdgi")
@@ -101,7 +103,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 show_percentage = false
 script = ExtResource("4_7uvla")
-bpms = 180
+bpms = 80
 
 [node name="TextureRect" type="TextureRect" parent="Control/Control/VBoxContainer"]
 layout_mode = 2
@@ -138,25 +140,68 @@ layout_mode = 2
 size_flags_vertical = 4
 expand_mode = 1
 
-[node name="TurnPanel" type="Control" parent="Control"]
-anchors_preset = 0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 60.0
-offset_bottom = 60.0
-
-[node name="Label" type="Label" parent="Control/TurnPanel"]
+[node name="Countdown" type="Label" parent="Control"]
+visible = false
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-scale = Vector2(1, 0.995643)
-theme_override_font_sizes/font_size = 30
-text = "TURNO DE ENEMIGO"
+offset_left = 226.0
+offset_top = 230.0
+offset_right = 902.0
+offset_bottom = 367.0
+theme_override_font_sizes/font_size = 100
+text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("5_yrgp3")
+script = ExtResource("13_xy8xq")
+
+[node name="StartTimer" type="Timer" parent="Control/Countdown"]
+wait_time = 2.0
+autostart = true
+
+[node name="RealTimer" type="Timer" parent="Control/Countdown"]
+wait_time = 0.5
+
+[node name="LifesContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 28.0
+offset_right = 479.0
+offset_bottom = 78.0
+script = ExtResource("13_n4c0r")
+
+[node name="TextureRect" type="TextureRect" parent="Control/LifesContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("14_tgixq")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="Control/LifesContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("14_tgixq")
+expand_mode = 1
+
+[node name="TextureRect3" type="TextureRect" parent="Control/LifesContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("14_tgixq")
+expand_mode = 1
+
+[node name="TextureRect4" type="TextureRect" parent="Control/LifesContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("14_tgixq")
+expand_mode = 1
+
+[node name="TextureRect5" type="TextureRect" parent="Control/LifesContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("14_tgixq")
+expand_mode = 1
 
 [node name="TV" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_ii4hs")
 position = Vector2(576, 324)
 texture = ExtResource("1_pnjqr")
+
+[connection signal="timeout" from="Control/Countdown/StartTimer" to="Control/Countdown" method="_on_start_timer_timeout"]
+[connection signal="timeout" from="Control/Countdown/RealTimer" to="Control/Countdown" method="_on_real_timer_timeout"]

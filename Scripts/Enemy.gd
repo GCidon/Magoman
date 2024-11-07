@@ -17,12 +17,14 @@ func _ready():
 	TurnControl.player_turn_end.connect(start_turn)
 	TurnControl.enemy_turn_end.connect(end_turn)
 	TurnControl.beat.connect(on_beat)
+	CombatControl.start_game.connect(reset)
 	
 func start_turn():
 	state = State.SURROUND
 	attacks.clear()
 	if next_enemy:
-		queue_free()
+		CombatControl.enemy_dead.emit()
+		visible = false
 	
 func end_turn():
 	state = State.NONE
@@ -48,3 +50,8 @@ func add_attack():
 	num_attacks += 1
 	if num_attacks > 15:
 		next_enemy = true
+		
+func reset():
+	visible = true
+	num_attacks = 0
+	next_enemy = false

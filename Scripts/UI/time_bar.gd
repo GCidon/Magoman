@@ -4,9 +4,9 @@ var turn_duration : float = 0.0
 var beat_duration : float = 0.0
 var beat_counter : float = 0.0
 
-@export var bpms : int = 120
+@export var bpms : int = 0
 
-var paused : bool = false
+var paused : bool = true
 
 var actual_beat : int = 0
 
@@ -15,6 +15,8 @@ func _ready():
 	var bpss : float = bpms/60.0
 	turn_duration = 4.0/bpss
 	beat_duration = 1.0/bpss
+	CombatControl.start_game.connect(resume)
+	CombatControl.enemy_dead.connect(stop)
 
 func _process(delta):
 	if not paused:
@@ -38,3 +40,8 @@ func stop():
 	
 func resume():
 	paused = false
+	if bpms < 400:
+		bpms += 20
+		var bpss : float = bpms/60.0
+		turn_duration = 4.0/bpss
+		beat_duration = 1.0/bpss

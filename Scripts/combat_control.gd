@@ -6,18 +6,18 @@ signal send_damage(dmg)
 signal enemy_dead()
 signal enemy_start_spawn(prefab)
 signal enemy_spawned()
+signal start_game()
 
-@export var enemy_prefab : PackedScene
+signal player_dmg()
+signal player_heal()
+
+signal player_dead()
 
 var enemy_attacks : Array[int]
 
 func _ready():
-	enemy_dead.connect(spawn_enemy)
 	enemy_attack.connect(add_enemy_attack)
 	mago_attack.connect(check_mago_attack)
-
-func spawn_enemy():
-	enemy_start_spawn.emit(enemy_prefab)
 	
 func add_enemy_attack(at1, at2, at3):
 	enemy_attacks.append(at1)

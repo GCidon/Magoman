@@ -49,7 +49,7 @@ script = ExtResource("4_h3i4k")
 atack = ExtResource("5_j4lp0")
 
 [node name="Timer" type="Timer" parent="zone"]
-wait_time = 5.0
+wait_time = 2.0
 autostart = true
 
 [node name="Button" type="Button" parent="."]
