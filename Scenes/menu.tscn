@@ -1,0 +1,125 @@
+[gd_scene load_steps=14 format=3 uid="uid://dedjixajlydtq"]
+
+[ext_resource type="Texture2D" uid="uid://vl1lhdffqpy5" path="res://Art/Sprites/fondomenu.png" id="1_8q876"]
+[ext_resource type="Shader" path="res://Art/Shaders/lines.gdshader" id="1_efcx2"]
+[ext_resource type="Texture2D" uid="uid://cjjfa281kdy0c" path="res://Art/Sprites/title.png" id="2_5m8lp"]
+[ext_resource type="Script" path="res://Scripts/menu/spawner.gd" id="4_h3i4k"]
+[ext_resource type="Texture2D" uid="uid://48d8lfox6fj4" path="res://Art/Sprites/menu/teletele.png" id="4_u4dkd"]
+[ext_resource type="Shader" path="res://Art/Shaders/retro2.gdshader" id="5_b4her"]
+[ext_resource type="Texture2D" uid="uid://dbp0iaanc7642" path="res://Art/Sprites/menu/telefondo.png" id="5_g4q0n"]
+[ext_resource type="PackedScene" uid="uid://dnbxi6qncf6qf" path="res://Scenes/menu/atack.tscn" id="5_j4lp0"]
+[ext_resource type="Script" path="res://Scripts/menu/tele.gd" id="6_3270h"]
+[ext_resource type="Texture2D" uid="uid://bo6pgv46nfpge" path="res://Art/Sprites/menu/fade.png" id="10_3lj4h"]
+[ext_resource type="Script" path="res://Scripts/menu/fade.gd" id="11_dyma5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_52wrk"]
+shader = ExtResource("1_efcx2")
+shader_parameter/bottom_color = Color(0.0784314, 0.176471, 0.372549, 1)
+shader_parameter/top_color = Color(0.290196, 0, 0.117647, 1)
+shader_parameter/beam_distance = null
+shader_parameter/beam_height = 0.017
+shader_parameter/beam_width = 0.193
+shader_parameter/total_phases = 8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_siy7g"]
+shader = ExtResource("5_b4her")
+shader_parameter/amount = 40.0
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="fondo" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_52wrk")
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("1_8q876")
+
+[node name="zone" type="Control" parent="."]
+anchors_preset = 0
+offset_left = -138.0
+offset_right = 1304.0
+offset_bottom = 646.0
+script = ExtResource("4_h3i4k")
+atack = ExtResource("5_j4lp0")
+
+[node name="Timer" type="Timer" parent="zone"]
+wait_time = 5.0
+autostart = true
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 407.0
+offset_top = 443.0
+offset_right = 724.0
+offset_bottom = 513.0
+
+[node name="Label" type="Label" parent="Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "PLAY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="tele" type="TextureRect" parent="."]
+z_index = 2
+z_as_relative = false
+layout_mode = 0
+offset_left = 275.0
+offset_top = 73.0
+offset_right = 875.0
+offset_bottom = 573.0
+scale = Vector2(1e-05, 1e-05)
+pivot_offset = Vector2(300, 250)
+texture = ExtResource("4_u4dkd")
+expand_mode = 1
+script = ExtResource("6_3270h")
+
+[node name="telefondo" type="TextureRect" parent="tele"]
+z_index = -1
+material = SubResource("ShaderMaterial_siy7g")
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 500.0
+texture = ExtResource("5_g4q0n")
+expand_mode = 1
+
+[node name="Timer" type="Timer" parent="tele"]
+wait_time = 5.0
+
+[node name="title" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 20.0
+offset_right = 979.0
+offset_bottom = 343.0
+texture = ExtResource("2_5m8lp")
+
+[node name="fade" type="TextureRect" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("10_3lj4h")
+script = ExtResource("11_dyma5")
+
+[connection signal="timeout" from="zone/Timer" to="zone" method="_on_timer_timeout"]
+[connection signal="pressed" from="Button" to="tele" method="_on_button_pressed"]
+[connection signal="timeout" from="tele/Timer" to="fade" method="_on_timer_timeout"]

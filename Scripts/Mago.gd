@@ -34,17 +34,15 @@ func reset_spells():
 	AttackArray.clear()
 		
 func cast_spell():
-	var ele : String = ""
-	for i in AttackArray:
-		match i:
-			Element.MA:
-				ele += "MA"
-			Element.GO:
-				ele += "GO"
-			Element.MAN:
-				ele += "MAN"
-	
-	CombatControl.mago_attack.emit(AttackArray[0], AttackArray[1], AttackArray[2])
+	match AttackArray.size():
+		3:
+			CombatControl.mago_attack.emit(AttackArray[0], AttackArray[1], AttackArray[2])
+		2:
+			CombatControl.mago_attack.emit(AttackArray[0], AttackArray[1], Element.NONE)
+		1:
+			CombatControl.mago_attack.emit(AttackArray[0], Element.NONE, Element.NONE)
+		0:
+			CombatControl.mago_attack.emit(Element.NONE, Element.NONE, Element.NONE)
 
 func receive_damage(dmg):
 	if dmg > 0:

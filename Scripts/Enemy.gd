@@ -10,6 +10,9 @@ var state : State = State.SURROUND
 
 var attacks : Array[Elements]
 
+var num_attacks : int = 0
+var next_enemy : bool = false
+
 func _ready():
 	TurnControl.player_turn_end.connect(start_turn)
 	TurnControl.enemy_turn_end.connect(end_turn)
@@ -18,6 +21,8 @@ func _ready():
 func start_turn():
 	state = State.SURROUND
 	attacks.clear()
+	if next_enemy:
+		queue_free()
 	
 func end_turn():
 	state = State.NONE
@@ -40,3 +45,6 @@ func add_attack():
 			ele = Elements.RAY
 	attacks.append(ele)
 	attack_manager.set_attack(attacks.size(), randomele)
+	num_attacks += 1
+	if num_attacks > 15:
+		next_enemy = true

@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnbxi6qncf6qf"]
+
+[ext_resource type="Texture2D" uid="uid://b47gukfpxfq0o" path="res://Art/Sprites/attacks/boton_ma.png" id="1_8xgsy"]
+[ext_resource type="Script" path="res://Scripts/menu/ataquemoving.gd" id="2_ucr6c"]
+[ext_resource type="Texture2D" uid="uid://15oo5wjjk6us" path="res://Art/Sprites/attacks/boton_go.png" id="3_n8i6h"]
+[ext_resource type="Texture2D" uid="uid://cqmdjhtotvw83" path="res://Art/Sprites/attacks/boton_man.png" id="4_uma17"]
+
+[node name="TextureRect" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_8xgsy")
+expand_mode = 1
+script = ExtResource("2_ucr6c")
+spritema = ExtResource("1_8xgsy")
+spritego = ExtResource("3_n8i6h")
+spriteman = ExtResource("4_uma17")
