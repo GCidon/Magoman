@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dedjixajlydtq"]
+[gd_scene load_steps=16 format=3 uid="uid://dedjixajlydtq"]
 
 [ext_resource type="Texture2D" uid="uid://vl1lhdffqpy5" path="res://Art/Sprites/fondomenu.png" id="1_8q876"]
 [ext_resource type="Shader" path="res://Art/Shaders/lines.gdshader" id="1_efcx2"]
@@ -9,8 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://dbp0iaanc7642" path="res://Art/Sprites/menu/telefondo.png" id="5_g4q0n"]
 [ext_resource type="PackedScene" uid="uid://dnbxi6qncf6qf" path="res://Scenes/menu/atack.tscn" id="5_j4lp0"]
 [ext_resource type="Script" path="res://Scripts/menu/tele.gd" id="6_3270h"]
+[ext_resource type="AudioStream" uid="uid://cnahfosgr7vo" path="res://Art/Music/estatica.wav" id="9_fga17"]
 [ext_resource type="Texture2D" uid="uid://bo6pgv46nfpge" path="res://Art/Sprites/menu/fade.png" id="10_3lj4h"]
 [ext_resource type="Script" path="res://Scripts/menu/fade.gd" id="11_dyma5"]
+[ext_resource type="AudioStream" uid="uid://bq52jwdj4yg6b" path="res://Art/Music/menu.wav" id="12_vf2d1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_52wrk"]
 shader = ExtResource("1_efcx2")
@@ -103,6 +105,9 @@ expand_mode = 1
 [node name="Timer" type="Timer" parent="tele"]
 wait_time = 5.0
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="tele"]
+stream = ExtResource("9_fga17")
+
 [node name="title" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = 240.0
@@ -119,6 +124,10 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("10_3lj4h")
 script = ExtResource("11_dyma5")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_vf2d1")
+autoplay = true
 
 [connection signal="timeout" from="zone/Timer" to="zone" method="_on_timer_timeout"]
 [connection signal="pressed" from="Button" to="tele" method="_on_button_pressed"]
