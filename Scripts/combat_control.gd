@@ -8,8 +8,8 @@ signal enemy_start_spawn(prefab)
 signal enemy_spawned()
 signal start_game()
 
-signal player_dmg()
-signal player_heal()
+signal player_dmg(hp_left)
+signal player_heal(hp_left)
 
 signal player_dead()
 

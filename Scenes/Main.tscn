@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ck46ar441yexq"]
+[gd_scene load_steps=21 format=3 uid="uid://ck46ar441yexq"]
 
 [ext_resource type="Texture2D" uid="uid://bjkin0geu6k7y" path="res://Art/Sprites/fondo.png" id="1_pnjqr"]
 [ext_resource type="Shader" path="res://Art/Shaders/lines.gdshader" id="1_pwdgi"]
@@ -15,6 +15,8 @@
 [ext_resource type="Script" path="res://Scripts/UI/LifesContainer.gd" id="13_n4c0r"]
 [ext_resource type="Script" path="res://Scripts/UI/countdown.gd" id="13_xy8xq"]
 [ext_resource type="Texture2D" uid="uid://7h6ccy5o5xnj" path="res://Art/Sprites/heart.png" id="14_tgixq"]
+[ext_resource type="Texture2D" uid="uid://dgw3c07giay8h" path="res://Art/Sprites/final_panel.png" id="15_uky43"]
+[ext_resource type="Script" path="res://Scripts/UI/finalpanel.gd" id="16_f172w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sgtay"]
 shader = ExtResource("1_pwdgi")
@@ -167,6 +169,7 @@ offset_top = 28.0
 offset_right = 479.0
 offset_bottom = 78.0
 script = ExtResource("13_n4c0r")
+heart_text = ExtResource("14_tgixq")
 
 [node name="TextureRect" type="TextureRect" parent="Control/LifesContainer"]
 custom_minimum_size = Vector2(40, 40)
@@ -198,6 +201,25 @@ layout_mode = 2
 texture = ExtResource("14_tgixq")
 expand_mode = 1
 
+[node name="TextureRect" type="TextureRect" parent="Control"]
+visible = false
+layout_mode = 0
+offset_left = 340.0
+offset_top = 101.0
+offset_right = 818.0
+offset_bottom = 480.0
+texture = ExtResource("15_uky43")
+script = ExtResource("16_f172w")
+
+[node name="menu" type="Button" parent="Control/TextureRect"]
+layout_mode = 0
+offset_left = 146.0
+offset_top = 271.0
+offset_right = 245.0
+offset_bottom = 302.0
+scale = Vector2(1.92, 1.56)
+text = "TRY AGAIN?"
+
 [node name="TV" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_ii4hs")
 position = Vector2(576, 324)
@@ -205,3 +227,4 @@ texture = ExtResource("1_pnjqr")
 
 [connection signal="timeout" from="Control/Countdown/StartTimer" to="Control/Countdown" method="_on_start_timer_timeout"]
 [connection signal="timeout" from="Control/Countdown/RealTimer" to="Control/Countdown" method="_on_real_timer_timeout"]
+[connection signal="pressed" from="Control/TextureRect/menu" to="Control/TextureRect" method="_on_menu_pressed"]

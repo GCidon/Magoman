@@ -17,6 +17,7 @@ func _ready():
 	beat_duration = 1.0/bpss
 	CombatControl.start_game.connect(resume)
 	CombatControl.enemy_dead.connect(stop)
+	CombatControl.player_dead.connect(stop)
 
 func _process(delta):
 	if not paused:

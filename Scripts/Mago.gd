@@ -49,16 +49,19 @@ func receive_damage(dmg):
 	if dmg > 0:
 		modulate = Color(1, 0, 0)
 		dmg_timer.start()
-		CombatControl.player_dmg.emit()
-		if hp > 1:
-			hp -= 1
-		else:
+		
+		hp -= dmg
+		CombatControl.player_dmg.emit(hp)
+		if hp <= 0:
+			hp = 0
 			CombatControl.player_dead.emit()
 			queue_free()
+		
 			
 func heal():
 	if hp < 5:
 		hp += 1
+		CombatControl.player_heal.emit(hp)
 
 func _on_dmg_timer_timeout():
 	modulate = Color(1, 1, 1)
