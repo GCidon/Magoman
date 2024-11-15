@@ -5,8 +5,10 @@ enum Element {MA, GO, MAN, NONE}
 var AttackArray : Array[Element] = []
 
 @export var attack_sprite_manager : AttackSpriteManager
+@export var sounds_array : Array[AudioStream]
 
 @onready var dmg_timer : Timer = $DmgTimer
+@onready var sounds_attack : AudioStreamPlayer = $SoundsAttack
 
 var hp : int = 5
 
@@ -30,6 +32,8 @@ func add_spell(spell : Element):
 		AttackArray.append(spell)
 		var numspell : int = int(spell)
 		attack_sprite_manager.set_attack(AttackArray.size(), numspell)
+		sounds_attack.stream = sounds_array[numspell]
+		sounds_attack.play()
 		
 func reset_spells():
 	AttackArray.clear()

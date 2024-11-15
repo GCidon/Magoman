@@ -107,6 +107,7 @@ wait_time = 5.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="tele"]
 stream = ExtResource("9_fga17")
+volume_db = -10.174
 
 [node name="title" type="TextureRect" parent="."]
 layout_mode = 0
@@ -127,6 +128,7 @@ script = ExtResource("11_dyma5")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_vf2d1")
+volume_db = -10.301
 autoplay = true
 
 [connection signal="timeout" from="zone/Timer" to="zone" method="_on_timer_timeout"]

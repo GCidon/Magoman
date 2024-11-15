@@ -1,14 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://l5sjrvf0pu3j"]
+[gd_scene load_steps=8 format=3 uid="uid://l5sjrvf0pu3j"]
 
 [ext_resource type="Script" path="res://Scripts/Mago.gd" id="1_1sw8y"]
 [ext_resource type="Texture2D" uid="uid://bnvucn8054s5f" path="res://Art/Sprites/magoman.png" id="2_gpuk8"]
 [ext_resource type="Script" path="res://Scripts/sprite_vaiven.gd" id="3_1jhnh"]
+[ext_resource type="AudioStream" uid="uid://8a1mchx8xgao" path="res://Art/Sound/mago/ma.ogg" id="4_rm1n4"]
+[ext_resource type="AudioStream" uid="uid://bxd2yijdne1q7" path="res://Art/Sound/mago/go.ogg" id="5_gng3f"]
+[ext_resource type="AudioStream" uid="uid://s448wvpjjwkp" path="res://Art/Sound/mago/man.ogg" id="6_ox0s6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lepqu"]
 radius = 41.0122
 
 [node name="Mago" type="CharacterBody2D"]
 script = ExtResource("1_1sw8y")
+sounds_array = Array[AudioStream]([ExtResource("4_rm1n4"), ExtResource("5_gng3f"), ExtResource("6_ox0s6")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_lepqu")
@@ -20,5 +24,8 @@ script = ExtResource("3_1jhnh")
 
 [node name="DmgTimer" type="Timer" parent="."]
 wait_time = 0.5
+
+[node name="SoundsAttack" type="AudioStreamPlayer" parent="."]
+volume_db = -11.305
 
 [connection signal="timeout" from="DmgTimer" to="." method="_on_dmg_timer_timeout"]
